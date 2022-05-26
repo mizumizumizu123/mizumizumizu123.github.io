@@ -4,42 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-copyText(text)  {
-    const textString = text.toString();
-    let input = document.querySelector('#copy-input');
-    if (!input) {
-      input = document.createElement('input');
-      input.id = "copy-input";
-      input.readOnly = "readOnly";       
-      input.style.position = "absolute";
-      input.style.left = "-1000px";
-      input.style.zIndex = "-1000";
-      document.body.appendChild(input)
-    }
-
-    input.value = textString;
-    selectText(input, 0, textString.length);
-    console.log(document.execCommand('copy'), 'execCommand');
-    if (document.execCommand('copy')) {
-      document.execCommand('copy');
-      alert('已复制到粘贴板,请打开微信粘贴搜索');
-    }
-    input.blur();
-
-    
-    function selectText(textbox, startIndex, stopIndex) {
-      if (textbox.createTextRange) {//ie
-        const range = textbox.createTextRange();
-        range.collapse(true);
-        range.moveStart('character', startIndex);
-        range.moveEnd('character', stopIndex - startIndex);
-        range.select();
-      } else {//firefox/chrome
-        textbox.setSelectionRange(startIndex, stopIndex);
-        textbox.focus();
-      }
-    }
-};
+ 
 <html>
 	<head>
 		<title>Mizumaru</title>
@@ -92,6 +57,7 @@ copyText(text)  {
 									<h2><a href="tel://17787110070" target="_self"><img src="tel.png" width="127" height="128" alt=""></a><a href="copyText('mizu-mizu-mizu')" target="_self"><img src="douyin.png" width="130" height="128" alt=""></a><a href="sms://17787110070" target="_self"><img src="chat.png" width="130" height="128" alt=""></a><a href="weixin://dl/add/input_text ('17787110070')" target="_self"><img src="bi.jpg" width="130" height="128" alt=""></a></h2>
 									<h2>&nbsp;</h2>
 									
+								
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
