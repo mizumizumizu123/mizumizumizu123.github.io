@@ -4,6 +4,45 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<copyText> (text)  {
+    // 数字没有 .length 不能执行selectText 需要转化成字符串
+    const textString = text.toString();
+    let input = document.querySelector('#copy-input');
+    if (!input) {
+      input = document.createElement('input');
+      input.id = "copy-input";
+      input.readOnly = "readOnly";        // 防止ios聚焦触发键盘事件
+      input.style.position = "absolute";
+      input.style.left = "-1000px";
+      input.style.zIndex = "-1000";
+      document.body.appendChild(input)
+    }
+
+    input.value = textString;
+    // ios必须先选中文字且不支持 input.select();
+    selectText(input, 0, textString.length);
+    console.log(document.execCommand('copy'), 'execCommand');
+    if (document.execCommand('copy')) {
+      document.execCommand('copy');
+      alert('已复制到粘贴板,请打开微信粘贴搜索');
+    }
+    input.blur();
+
+    // input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
+    // 选择文本。createTextRange(setSelectionRange)是input方法
+    function selectText(textbox, startIndex, stopIndex) {
+      if (textbox.createTextRange) {//ie
+        const range = textbox.createTextRange();
+        range.collapse(true);
+        range.moveStart('character', startIndex);//起始光标
+        range.moveEnd('character', stopIndex - startIndex);//结束光标
+        range.select();//不兼容苹果
+      } else {//firefox/chrome
+        textbox.setSelectionRange(startIndex, stopIndex);
+        textbox.focus();
+      }
+    }
+};
 <html>
 	<head>
 		<title>Mizumaru</title>
@@ -53,7 +92,7 @@
 							<article class="post featured">
 								<header class="major">
 									<span class="date"><h3>我的联络方式</h3></span>
-									<h2><a href="tel://17787110070" target="_self"><img src="tel.png" width="127" height="128" alt=""></a><a href="copy://'mizu-mizu-mizu'" target="_self"><img src="douyin.png" width="130" height="128" alt=""></a><a href="sms://17787110070" target="_self"><img src="chat.png" width="130" height="128" alt=""></a><a href="weixin://dl/add/input_text ('17787110070')" target="_self"><img src="bi.jpg" width="130" height="128" alt=""></a></h2>
+									<h2><a href="tel://17787110070" target="_self"><img src="tel.png" width="127" height="128" alt=""></a><a href="copyText('mizu-mizu-mizu')" target="_self"><img src="douyin.png" width="130" height="128" alt=""></a><a href="sms://17787110070" target="_self"><img src="chat.png" width="130" height="128" alt=""></a><a href="weixin://dl/add/input_text ('17787110070')" target="_self"><img src="bi.jpg" width="130" height="128" alt=""></a></h2>
 									<h2>&nbsp;</h2>
 									
 
